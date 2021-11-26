@@ -46,5 +46,4 @@ kind: ConfigMap
 metadata:
   name: beat-config
 data:
-  filebeat.yml: |
-{{ .Files.Get "filebeat.yml" | indent 4 }}
+  filebeat.yml: '{{ .Files.Get "filebeat.yml" | indent 4 }}'
