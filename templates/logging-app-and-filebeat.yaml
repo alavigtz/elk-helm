@@ -21,10 +21,10 @@ spec:
         - name: log-output
           mountPath: /tmp/
       - name: beat-auto
-        image: elastic/filebeat:7.8.0
+        image: docker.elastic.co/beats/filebeat:7.11.0
         env:
           - name: LOGSTASH_HOSTS
-            value: "{{ .Values.global.hostIp }}:{{ .Values.global.logstash }}"
+            value: "http://127.0.0.1:31998"
         args: ["-c", "/etc/filebeat/filebeat.yml", "-e"]
         volumeMounts:
           - name: log-output
@@ -46,4 +46,5 @@ kind: ConfigMap
 metadata:
   name: beat-config
 data:
-  filebeat.yml: '{{ .Files.Get "filebeat.yml" | indent 4 }}'
+  filebeat.yml: |
+{{ .Files.Get "filebeat.yml" | indent 4 }}

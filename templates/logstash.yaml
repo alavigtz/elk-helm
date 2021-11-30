@@ -16,13 +16,13 @@ spec:
     spec:
       containers:
       - name: log-auto
-        image: logstash:7.8.0
+        image: docker.elastic.co/logstash/logstash:7.11.0
         ports:
         - containerPort: 5044
           name: filebeat
         env:
           - name: ELASTICSEARCH_HOSTS
-            value: "http://{{ .Values.global.hostIp }}:{{ .Values.global.elasticsearch }}"
+            value: "http://172.16.16.101:31996"
         volumeMounts:
             - name: log-auto-pipeline
               mountPath: /usr/share/logstash/pipeline/
@@ -56,5 +56,5 @@ spec:
   ports:
   - port: 5044
     targetPort: 5044
-    nodePort: {{ .Values.global.logstash }}
+    nodePort: 31998
     protocol: TCP
