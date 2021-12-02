@@ -78,3 +78,12 @@ spec:
   resources:
     requests:
       storage: 3Gi
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: elasticsearch-credentials
+type: Opaque
+data:
+  username: ZWxhc3RpYw==
+  password: Y2hhbmdlbWU=

@@ -24,9 +24,15 @@ spec:
           - name: ELASTICSEARCH_HOSTS
             value: "http://172.16.16.101:31996"
           - name: ELASTICSEARCH_USERNAME
-            value: "elastic"
+            valueFrom:
+              secretKeyRef:
+                name: elasticsearch-credentials
+                key: username
           - name: ELASTICSEARCH_PASSWORD
-            value: "changeme"
+            valueFrom:
+              secretKeyRef:
+                name: elasticsearch-credentials
+                key: password        
 ---
 apiVersion: v1
 kind: Service
