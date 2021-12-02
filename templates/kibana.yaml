@@ -23,6 +23,10 @@ spec:
         env:
           - name: ELASTICSEARCH_HOSTS
             value: "http://172.16.16.101:31996"
+          - name: ELASTICSEARCH_USERNAME
+            value: "elastic"
+          - name: ELASTICSEARCH_PASSWORD
+            value: "changeme"
 ---
 apiVersion: v1
 kind: Service

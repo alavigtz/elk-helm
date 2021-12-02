@@ -50,11 +50,12 @@ metadata:
   labels:
     name: log-auto
 spec:
-  type: NodePort
+  type: ClusterIP
+  externalIPs:
+    - 172.16.16.101
   selector:
     name: log-auto
   ports:
-  - port: 5044
-    targetPort: 5044
-    nodePort: 31998
-    protocol: TCP
+    - port: 31998
+      targetPort: 5044
+      protocol: TCP

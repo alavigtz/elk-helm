@@ -14,6 +14,10 @@ spec:
       labels:
         name: es-auto
     spec:
+      volumes:
+        - name: elk-pv-storage
+          persistentVolumeClaim:
+            claimName: elk-pv-claim
       containers:
       - name: es-auto
         image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
@@ -23,6 +27,13 @@ spec:
         env:
           - name: discovery.type
             value: single-node
+          - name: xpack.security.enabled
+            value: 'true'
+          - name: ES_JAVA_OPTS
+            value: '-Xms2g -Xmx2g'
+        volumeMounts:
+        - mountPath: "/usr/share/elasticsearch/data"
+          name: elk-pv-storage
 ---
 apiVersion: v1
 kind: Service
@@ -40,3 +51,30 @@ spec:
     - port: 31996
       targetPort: 9200
       protocol: TCP
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: elk-pv-volume
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/kube-volumes/atmf-elk/elasticsearch/data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: elk-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 3Gi
