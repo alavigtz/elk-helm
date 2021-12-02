@@ -22,7 +22,7 @@ spec:
           name: filebeat
         env:
           - name: ELASTICSEARCH_HOSTS
-            value: "http://172.16.16.101:31996"
+            value: "http://158.98.6.18:31996"
         volumeMounts:
             - name: log-auto-pipeline
               mountPath: /usr/share/logstash/pipeline/
@@ -52,7 +52,7 @@ metadata:
 spec:
   type: ClusterIP
   externalIPs:
-    - 172.16.16.101
+    - 158.98.6.18
   selector:
     name: log-auto
   ports:

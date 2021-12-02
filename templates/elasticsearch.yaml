@@ -44,7 +44,7 @@ metadata:
 spec:
   type: ClusterIP
   externalIPs:
-    - 172.16.16.101
+    - 158.98.6.18
   selector:
     name: es-auto
   ports:
@@ -86,4 +86,4 @@ metadata:
 type: Opaque
 data:
   username: ZWxhc3RpYw==
-  password: Y2hhbmdlbWU=
+  password: RTFAMnQxYzIzNHJjSA==
