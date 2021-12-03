@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: es-auto
+  namespace: elk
   labels:
     name: es-auto
 spec:
@@ -14,6 +15,8 @@ spec:
       labels:
         name: es-auto
     spec:
+      nodeSelector:
+       kubernetes.io/hostname: sdccontpro01
       volumes:
         - name: elk-pv-storage
           persistentVolumeClaim:
@@ -21,6 +24,7 @@ spec:
       containers:
       - name: es-auto
         image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
+        imagePullPolicy: Never
         ports:
         - containerPort: 9200
           name: http
@@ -39,6 +43,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: es-auto
+  namespace: elk
   labels:
     name: es-auto
 spec:
@@ -56,12 +61,13 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: elk-pv-volume
+  namespace: elk
   labels:
     type: local
 spec:
   storageClassName: manual
   capacity:
-    storage: 10Gi
+    storage: 30Gi
   accessModes:
     - ReadWriteMany
   hostPath:
@@ -71,18 +77,20 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: elk-pv-claim
+  namespace: elk
 spec:
   storageClassName: manual
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 3Gi
+      storage: 30Gi
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: elasticsearch-credentials
+  namespace: elk
 type: Opaque
 data:
   username: ZWxhc3RpYw==

@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: log-auto
+  namespace: elk
   labels:
     name: log-auto
 spec:
@@ -14,9 +15,12 @@ spec:
       labels:
         name: log-auto
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: sdccontpro01
       containers:
       - name: log-auto
         image: docker.elastic.co/logstash/logstash:7.11.0
+        imagePullPolicy: Never
         ports:
         - containerPort: 5044
           name: filebeat
@@ -40,6 +44,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: log-auto-pipeline
+  namespace: elk
 data:
   logstash.conf: '{{ .Files.Get "logstash.conf" | indent 4 }}'
 ---
